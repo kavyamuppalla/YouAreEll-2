@@ -9,8 +9,9 @@ import java.util.List;
 
 import controllers.IdController;
 import controllers.MessageController;
+import main.YouAreEll;
 
-// Simple Shell is a Console view for YouAreEll.
+// Simple Shell is a Console view for main.YouAreEll.
 public class SimpleShell {
 
 
@@ -66,8 +67,45 @@ public class SimpleShell {
                 // Specific Commands.
 
                 // ids
+                if (list.contains("ids") && list.size() >= 3) {
+                    String name = list.get(1);
+                    for(int i = 2; i < list.size()-1; i++) {
+                       name  = name + " " + list.get(i);
+                    }
+                    String results = webber.post_ids(list.get(list.size()-1),name);
+                    SimpleShell.prettyPrint(results);
+                    continue;
+                }
+
+
                 if (list.contains("ids")) {
                     String results = webber.get_ids();
+                    SimpleShell.prettyPrint(results);
+                    continue;
+                }
+
+                if (list.contains("messages") && list.size() > 1) {
+                    String results = webber.get_messages_id(list.get(1));
+                    SimpleShell.prettyPrint(results);
+                    continue;
+                }
+                if (list.contains("send") && list.contains("to")) {
+                    System.out.println(list.size());
+                    String message = list.get(2);
+                    for(int i = 3; i < list.size()-2; i++) {
+                        message = message + " " + list.get(i);
+                    }
+                    String results = webber.send_message_to_friend_id(list.get(1), message, list.get(list.size()-1));
+                    SimpleShell.prettyPrint(results);
+                    continue;
+                }
+                if (list.contains("send")) {
+                    System.out.println(list.size());
+                    String message = list.get(2);
+                    for(int i = 3; i < list.size(); i++) {
+                        message = message + " " + list.get(i);
+                    }
+                    String results = webber.send_message_id(list.get(1), message);
                     SimpleShell.prettyPrint(results);
                     continue;
                 }
